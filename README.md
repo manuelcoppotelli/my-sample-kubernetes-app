@@ -1,0 +1,1 @@
+# my-sample-kubernetes-app
