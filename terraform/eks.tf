@@ -18,6 +18,9 @@ module "eks" {
   #   provider_key_arn = "arn:aws:kms:eu-west-1:714007529877:key/03b87cb0-862e-41c3-b217-0dfe10f86169"
   # }
 
+  # Enable API authentication mode for EKS access entries
+  authentication_mode = "API_AND_CONFIG_MAP"
+
   eks_managed_node_groups = {
     main = {
       name              = "main-nodegroup"
