@@ -33,6 +33,11 @@ variable "alb_arn_suffix" {
   type        = string
 }
 
+variable "ecr_repo_name" {
+  description = "ECR repository name"
+  type        = string
+}
+
 variable "agent_space_name" {
   description = "Name of the DevOps Agent Space"
   type        = string
@@ -66,5 +71,10 @@ variable "github_repo" {
 
 variable "github_repo_id" {
   description = "GitHub repository ID (numeric)"
+  type        = string
+}
+
+variable "github_service_id" {
+  description = "GitHub service ID from DevOps Agent RegisterService"
   type        = string
 }

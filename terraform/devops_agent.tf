@@ -78,12 +78,13 @@ resource "awscc_devopsagent_agent_space" "main" {
 # AWS Account Association (for monitoring this account)
 resource "awscc_devopsagent_association" "aws_monitor" {
   agent_space_id = awscc_devopsagent_agent_space.main.agent_space_id
+  service_id     = "aws"
 
-  service_configuration = {
+  configuration = {
     aws = {
-      account_id            = data.aws_caller_identity.current.account_id
-      assumable_role_arn    = aws_iam_role.devops_agent.arn
-      monitored_resource_id = "*"
+      account_id         = data.aws_caller_identity.current.account_id
+      account_type       = "monitor"
+      assumable_role_arn = aws_iam_role.devops_agent.arn
     }
   }
 }
@@ -91,8 +92,9 @@ resource "awscc_devopsagent_association" "aws_monitor" {
 # GitHub Repository Association
 resource "awscc_devopsagent_association" "github" {
   agent_space_id = awscc_devopsagent_agent_space.main.agent_space_id
+  service_id     = var.github_service_id
 
-  service_configuration = {
+  configuration = {
     git_hub = {
       owner      = var.github_org
       owner_type = var.github_owner_type
@@ -102,12 +104,32 @@ resource "awscc_devopsagent_association" "github" {
   }
 }
 
-# Investigation Group for ALB 5XX Errors
-resource "awscc_devopsagent_investigation_group" "alb_5xx" {
-  name           = "${var.cluster_name}-alb-5xx-investigation"
-  agent_space_id = awscc_devopsagent_agent_space.main.agent_space_id
+# Investigation Group for ALB 5XX Errors (AIOps resource)
+resource "awscc_aiops_investigation_group" "alb_5xx" {
+  name = "${var.cluster_name}-alb-5xx-investigation"
 
-  is_cloud_watch_alarm_action_enabled = true
-
-  depends_on = [awscc_devopsagent_agent_space.main]
+  investigation_group_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "aiops.alarms.cloudwatch.amazonaws.com"
+        }
+        Action = [
+          "aiops:CreateInvestigation",
+          "aiops:CreateInvestigationEvent"
+        ]
+        Resource = "*"
+        Condition = {
+          StringEquals = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+          ArnLike = {
+            "aws:SourceArn" = "arn:aws:cloudwatch:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:alarm:*"
+          }
+        }
+      }
+    ]
+  })
 }

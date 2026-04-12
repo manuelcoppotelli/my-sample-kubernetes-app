@@ -49,12 +49,7 @@ output "devops_operator_role_arn" {
   value       = aws_iam_role.devops_operator.arn
 }
 
-output "investigation_group_id" {
-  description = "Investigation Group ID for ALB 5XX errors"
-  value       = awscc_devopsagent_investigation_group.alb_5xx.investigation_group_id
-}
-
 output "investigation_group_arn" {
   description = "Investigation Group ARN for ALB 5XX errors"
-  value       = awscc_devopsagent_investigation_group.alb_5xx.arn
+  value       = awscc_aiops_investigation_group.alb_5xx.arn
 }

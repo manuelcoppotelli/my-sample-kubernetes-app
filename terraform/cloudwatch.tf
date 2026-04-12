@@ -15,6 +15,6 @@ resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
     LoadBalancer = var.alb_arn_suffix
   }
 
-  # Trigger AgentSpace investigation on alarm
-  alarm_actions = ["${awscc_devopsagent_investigation_group.alb_5xx.arn}#DEDUPE_STRING=alb-5xx-errors"]
+  # Trigger AIOps investigation on alarm
+  alarm_actions = ["${awscc_aiops_investigation_group.alb_5xx.arn}#DEDUPE_STRING=alb-5xx-errors"]
 }
