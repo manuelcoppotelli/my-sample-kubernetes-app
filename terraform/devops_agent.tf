@@ -104,32 +104,9 @@ resource "awscc_devopsagent_association" "github" {
   }
 }
 
-# Investigation Group for ALB 5XX Errors (AIOps resource)
-resource "awscc_aiops_investigation_group" "alb_5xx" {
-  name = "${var.cluster_name}-alb-5xx-investigation"
-
-  investigation_group_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "aiops.alarms.cloudwatch.amazonaws.com"
-        }
-        Action = [
-          "aiops:CreateInvestigation",
-          "aiops:CreateInvestigationEvent"
-        ]
-        Resource = "*"
-        Condition = {
-          StringEquals = {
-            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
-          }
-          ArnLike = {
-            "aws:SourceArn" = "arn:aws:cloudwatch:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:alarm:*"
-          }
-        }
-      }
-    ]
-  })
-}
+# Note: Generic webhook for CloudWatch alarm integration must be created via console:
+# 1. Go to DevOps Agent console -> Agent Space -> Capabilities -> Webhook
+# 2. Click "Generate webhook" to create a generic webhook
+# 3. Copy the webhook URL and secret to terraform variables:
+#    - devops_agent_webhook_url
+#    - devops_agent_webhook_secret

@@ -78,3 +78,14 @@ variable "github_service_id" {
   description = "GitHub service ID from DevOps Agent RegisterService"
   type        = string
 }
+
+variable "devops_agent_webhook_url" {
+  description = "DevOps Agent webhook URL for triggering investigations"
+  type        = string
+}
+
+variable "devops_agent_webhook_secret" {
+  description = "DevOps Agent webhook secret for HMAC authentication"
+  type        = string
+  sensitive   = true
+}

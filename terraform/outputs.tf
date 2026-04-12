@@ -48,8 +48,3 @@ output "devops_operator_role_arn" {
   description = "IAM role ARN for DevOps Operator App"
   value       = aws_iam_role.devops_operator.arn
 }
-
-output "investigation_group_arn" {
-  description = "Investigation Group ARN for ALB 5XX errors"
-  value       = awscc_aiops_investigation_group.alb_5xx.arn
-}
