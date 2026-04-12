@@ -1,12 +1,10 @@
 terraform {
   required_version = ">= 1.0"
-
   backend "s3" {
     bucket = "tf-backend-390403882388-eu-west-1"
     key    = "my-sample-kubernetes-app.tfstate"
     region = "eu-west-1"
   }
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"

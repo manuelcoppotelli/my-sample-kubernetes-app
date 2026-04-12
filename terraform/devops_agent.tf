@@ -55,6 +55,25 @@ resource "aws_iam_role_policy_attachment" "devops_operator_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AIDevOpsOperatorAppAccessPolicy"
 }
 
+# Additional permissions for Operator App (not included in managed policy)
+resource "aws_iam_role_policy" "devops_operator_additional" {
+  name = "DevOpsOperatorAdditionalPermissions"
+  role = aws_iam_role.devops_operator.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "aidevops:*"
+        ]
+        Resource = "arn:aws:aidevops:*:${data.aws_caller_identity.current.account_id}:agentspace/*"
+      }
+    ]
+  })
+}
+
 # Wait for IAM role propagation
 resource "time_sleep" "wait_for_iam" {
   depends_on      = [aws_iam_role.devops_agent, aws_iam_role.devops_operator]
@@ -65,6 +84,9 @@ resource "time_sleep" "wait_for_iam" {
 resource "awscc_devopsagent_agent_space" "main" {
   name        = var.agent_space_name
   description = var.agent_space_description
+
+  # Configura l'agente per comunicare in italiano
+  language = "it"
 
   operator_app = {
     iam = {
