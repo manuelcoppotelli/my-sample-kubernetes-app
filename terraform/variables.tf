@@ -41,7 +41,6 @@ variable "agent_space_name" {
 variable "agent_space_description" {
   description = "Description of the DevOps Agent Space"
   type        = string
-  default     = "DevOps Agent Space for EKS microservice monitoring"
 }
 
 
@@ -54,7 +53,6 @@ variable "github_org" {
 variable "github_owner_type" {
   description = "GitHub owner type: 'organization' or 'user'"
   type        = string
-  default     = "organization"
   validation {
     condition     = contains(["organization", "user"], var.github_owner_type)
     error_message = "github_owner_type must be 'organization' or 'user'"
