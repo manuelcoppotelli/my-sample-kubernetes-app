@@ -1,53 +1,72 @@
 variable "aws_region" {
   description = "AWS region"
   type        = string
-  default     = "eu-west-1"
 }
 
 variable "cluster_name" {
   description = "EKS cluster name"
   type        = string
-  default     = "sample-eks-cluster"
+}
+
+variable "cluster_version" {
+  description = "EKS cluster name"
+  type        = string
 }
 
 variable "vpc_cidr" {
   description = "VPC CIDR block"
   type        = string
-  default     = "10.0.0.0/16"
 }
 
-variable "node_instance_type" {
-  description = "EC2 instance type for EKS nodes"
+variable "private_subnets" {
+  description = "VPC CIDR block"
+  type        = list(string)
+}
+
+variable "public_subnets" {
+  description = "VPC CIDR block"
+  type        = list(string)
+}
+
+variable "alb_arn_suffix" {
+  description = "ALB ARN suffix (e.g., app/my-alb/1234567890abcdef)"
   type        = string
-  default     = "t3.medium"
 }
 
-variable "desired_capacity" {
-  description = "Desired number of worker nodes"
-  type        = number
-  default     = 2
+variable "agent_space_name" {
+  description = "Name of the DevOps Agent Space"
+  type        = string
 }
 
-variable "min_capacity" {
-  description = "Minimum number of worker nodes"
-  type        = number
-  default     = 1
+variable "agent_space_description" {
+  description = "Description of the DevOps Agent Space"
+  type        = string
+  default     = "DevOps Agent Space for EKS microservice monitoring"
 }
 
-variable "max_capacity" {
-  description = "Maximum number of worker nodes"
-  type        = number
-  default     = 3
-}
 
+# Github vars
 variable "github_org" {
   description = "GitHub organization or username"
   type        = string
-  default     = "manuelcoppotelli"
+}
+
+variable "github_owner_type" {
+  description = "GitHub owner type: 'organization' or 'user'"
+  type        = string
+  default     = "organization"
+  validation {
+    condition     = contains(["organization", "user"], var.github_owner_type)
+    error_message = "github_owner_type must be 'organization' or 'user'"
+  }
 }
 
 variable "github_repo" {
   description = "GitHub repository name"
   type        = string
-  default     = "my-sample-kubernetes-app"
+}
+
+variable "github_repo_id" {
+  description = "GitHub repository ID (numeric)"
+  type        = string
 }

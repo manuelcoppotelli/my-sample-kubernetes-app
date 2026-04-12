@@ -1,15 +1,10 @@
 # ECR Repository
 resource "aws_ecr_repository" "app" {
-  name                 = "my-sample-kubernetes-app"
+  name                 = var.ecr_repo_name
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
     scan_on_push = true
-  }
-
-  tags = {
-    Environment = "dev"
-    Terraform   = "true"
   }
 }
 
@@ -18,11 +13,6 @@ resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
-
-  tags = {
-    Environment = "dev"
-    Terraform   = "true"
-  }
 }
 
 # IAM Role for GitHub Actions
@@ -49,11 +39,6 @@ resource "aws_iam_role" "github_actions" {
       }
     ]
   })
-
-  tags = {
-    Environment = "dev"
-    Terraform   = "true"
-  }
 }
 
 
