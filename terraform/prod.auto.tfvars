@@ -12,5 +12,4 @@ github_repo_id          = "1205674896"
 agent_space_name        = "my-sample-agent-space"
 agent_space_description = "DevOps Agent Space for EKS microservice monitoring"
 alb_arn_suffix          = "app/my-alb/1234567890abcdef"
-ecr_repo_name           = "my-sample-kubernetes-app"
 github_service_id       = "667d3934-3dec-4a49-968f-46de8d06dad2" # Got from the DevOps Agent RegisterService command
