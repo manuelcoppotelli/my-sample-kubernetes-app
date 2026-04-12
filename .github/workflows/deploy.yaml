@@ -60,15 +60,7 @@ jobs:
         run: |
           aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
-      - name: 'Deploy'
-        uses: 'deliverybot/helm@v1'
+      - name: Deploy
+        uses: WyriHaximus/github-action-helm3@v3
         with:
-          release: 'my-sample-kubernetes-app'
-          namespace: 'default'
-          chart: 'chart'
-          track: stable
-          token: '${{ github.token }}'
-          values: |
-            registry: ${{ steps.login-ecr.outputs.registry }}
-            repository: ${{ env.ECR_REPOSITORY }}
-            image_tag: ${{ github.sha }}
+          exec: helm upgrade APP_NAME ./chart --install --wait --atomic --namespace=default --set registry=${{ steps.login-ecr.outputs.registry }} --set repository=${{ env.ECR_REPOSITORY }} --set image_tag=${{ github.sha }}
