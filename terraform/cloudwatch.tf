@@ -136,13 +136,14 @@ resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
   alarm_name          = "${var.cluster_name}-alb-5xx-errors"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
-  metric_name         = "HTTPCode_ELB_5XX_Count"
+  metric_name         = "HTTPCode_Target_5XX_Count"
   namespace           = "AWS/ApplicationELB"
   period              = 60
   statistic           = "Sum"
-  threshold           = 10
+  threshold           = 1
   alarm_description   = "ALB is returning 5XX errors"
   treat_missing_data  = "notBreaching"
+  datapoints_to_alarm = 2
 
   dimensions = {
     LoadBalancer = var.alb_arn_suffix

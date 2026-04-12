@@ -85,9 +85,6 @@ resource "awscc_devopsagent_agent_space" "main" {
   name        = var.agent_space_name
   description = var.agent_space_description
 
-  # Configura l'agente per comunicare in italiano
-  language = "it"
-
   operator_app = {
     iam = {
       operator_app_role_arn = aws_iam_role.devops_operator.arn
