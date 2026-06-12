@@ -3,9 +3,9 @@
 # Script to send requests to trigger ALB 5XX alarm
 # The alarm triggers when HTTPCode_Target_5XX_Count > 1 for 2 consecutive 60-second periods
 
-ENDPOINT="${1:-http://k8s-default-mysample-15462f7eec-296687943.eu-west-1.elb.amazonaws.com/api/hello}"
-REQUESTS="${2:-100}"
-CONCURRENCY="${3:-10}"
+ENDPOINT="${1:-http://k8s-default-mysample-15462f7eec-1266718904.eu-west-1.elb.amazonaws.com/api/hello}"
+REQUESTS="${2:-10000000}"
+CONCURRENCY="${3:-1000}"
 DELAY="${4:-0.1}"
 
 echo "🚀 Sending $REQUESTS requests to $ENDPOINT"
