@@ -14,7 +14,7 @@ public class HelloController {
 
     @GetMapping("/hello")
     public Map<String, String> hello(@RequestParam(defaultValue = "World") String name) {
-        Map<String, String> response = null;
+        Map<String, String> response = new HashMap<>();
         response.put("message", "Hello, " + name + "!");
         response.put("service", "sample-microservice");
         return response;
